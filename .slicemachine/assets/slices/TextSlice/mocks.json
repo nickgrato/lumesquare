@@ -1,0 +1,32 @@
+[
+  {
+    "variation": "default-slice",
+    "name": "Default slice",
+    "slice_type": "text_slice",
+    "items": [],
+    "primary": {
+      "Text": [
+        {
+          "type": "paragraph",
+          "text": "Id duis laboris nostrud laborum. Consectetur nostrud ad ex id.",
+          "spans": []
+        }
+      ]
+    }
+  },
+  {
+    "variation": "twoColumn",
+    "name": "twoColumn",
+    "slice_type": "text_slice",
+    "items": [],
+    "primary": {
+      "Text": [
+        {
+          "type": "paragraph",
+          "text": "Dolor anim pariatur aliqua. Incididunt laboris nisi excepteur sunt aliqua amet. Sit culpa culpa eiusmod in quis eu proident non culpa labore enim incididunt.",
+          "spans": []
+        }
+      ]
+    }
+  }
+]

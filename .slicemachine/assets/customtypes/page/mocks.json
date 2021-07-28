@@ -1,0 +1,63 @@
+{
+  "id": "ce265d14-2541-4e52-b87c-620405bc5d98",
+  "uid": "exercitationem-ex-fuga",
+  "type": "page",
+  "data": {
+    "meta_title": "empower killer bandwidth",
+    "meta_description": "drive scalable mindshare",
+    "social_cards": [
+      {
+        "social_card_image": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1601933973783-43cf8a7d4c5f?w=900&h=500&fit=crop"
+        },
+        "social_card_title": "facilitate user-centric supply-chains",
+        "social_card_description": "embrace real-time experiences"
+      },
+      {
+        "social_card_image": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1601933973783-43cf8a7d4c5f?w=900&h=500&fit=crop"
+        },
+        "social_card_title": "incentivize cutting-edge synergies",
+        "social_card_description": "mesh out-of-the-box technologies"
+      },
+      {
+        "social_card_image": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1560762484-813fc97650a0?w=900&h=500&fit=crop"
+        },
+        "social_card_title": "whiteboard magnetic technologies",
+        "social_card_description": "grow strategic solutions"
+      },
+      {
+        "social_card_image": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1587905069134-008460d7a636?w=900&h=500&fit=crop"
+        },
+        "social_card_title": "morph cutting-edge bandwidth",
+        "social_card_description": "synthesize cutting-edge deliverables"
+      }
+    ]
+  }
+}
