@@ -6,10 +6,28 @@
     "FeaturedImage": {},
     "TextSlice": {},
     "QuoteSlice": {},
-    "MegaMenu": {}
+    "MegaMenu": {},
+    "SubMenu": {},
+    "SubNav": {
+      "default-slice": {
+        "primary": {},
+        "items": {}
+      }
+    },
+    "SubSubNav": {
+      "default-slice": {
+        "primary": {}
+      }
+    },
+    "GroupOfLinks": {
+      "default-slice": {
+        "primary": {}
+      }
+    }
   },
   "_cts": {
     "page": {},
-    "home-page": {}
+    "home-page": {},
+    "menu": {}
   }
 }

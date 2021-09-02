@@ -1,0 +1,120 @@
+
+// ---------------------------------
+//   Base
+// ---------------------------------
+
+html, body {
+  @include primary-font(300);
+  font-size: 16px;
+}
+
+// ---------------------------------
+//   Headers
+// ---------------------------------
+
+* {
+  @include primary-font(300);
+  font-size: rem(16);
+  text-decoration: none;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6,
+.h7 {
+  @include primary-font(900);
+  margin: 0
+}
+
+
+// ---------------------------------
+//   Misc
+// ---------------------------------
+
+body,
+input,
+textarea,
+button,
+select {
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+}
+
+
+/**
+The links in paragraphs looks different than stand alone links,
+This was set up in such a general way for the general content page
+so the client can just put a link in the paragraph and it works
+**/
+p{
+  line-height: 25px;
+  a {
+    color: $b-bright-blue;
+    text-decoration: none;
+    &:focus,
+    &:hover {
+      text-decoration: underline;
+      color: $b-bright-blue;
+    }
+  }
+}
+
+
+
+h1, .h1 {
+  @include h1;
+}
+
+h2, .h2 {
+  @include h2;
+}
+
+h3, .h3 {
+  @include h3;
+}
+
+.h3-sub {
+  @include h3-sub;
+}
+
+h4, .h4 {
+  @include h4;
+}
+
+
+.body-xs {
+  @include body-xs;
+}
+
+.body-sm {
+  @include body-sm;
+}
+
+.body-dt {
+  @include body-dt;
+}
+
+.body-md {
+  @include body-md;
+}
+
+.body-lg {
+  @include body-lg;
+}
+
+.strong-bold {
+  font-weight: 700;
+}
+
+.strong-medium {
+  font-weight: 400;
+}
+
+
+
+
+
+

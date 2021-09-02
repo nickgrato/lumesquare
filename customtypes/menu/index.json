@@ -2,6 +2,7 @@
   "id": "menu",
   "label": "Menu",
   "repeatable": false,
+  "status": true,
   "json": {
     "Main": {
       "title": {
@@ -29,12 +30,30 @@
                 "label": "Link",
                 "placeholder": "Select a Link..."
               }
+            },
+            "links": {
+              "config": {
+                "label": "",
+                "select": "document",
+                "customtypes": []
+              },
+              "type": "Link"
             }
           },
           "label": "Menu Links"
         }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "sub_nav": {
+              "type": "SharedSlice"
+            }
+          }
+        }
       }
     }
-  },
-  "status": true
+  }
 }

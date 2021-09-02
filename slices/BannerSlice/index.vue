@@ -7,10 +7,13 @@
       <prismic-rich-text :field="slice.primary.description"  class="banner-description"/>
       <prismic-link :field="slice.primary.link" class="banner-button">{{ slice.primary.linkLabel }}</prismic-link>
     </div>
+    <!-- <slice-zone type="mega_menu" uid="shop-location" /> -->
   </section>
 </template>
 
 <script>
+import SliceZone from "vue-slicezone";
+
 export default {
   name: "BannerSlice",
   props: {
@@ -22,6 +25,9 @@ export default {
       },
     },
   },
+  components: {
+    SliceZone
+  }
 }
 </script>
 

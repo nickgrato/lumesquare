@@ -1,0 +1,37 @@
+[
+  {
+    "variation": "default-slice",
+    "name": "Default slice",
+    "slice_type": "group_of_links",
+    "items": [
+      {
+        "categoryLinkLabel": "disintermediate strategic ROI",
+        "categoryLink": {
+          "link_type": "Web",
+          "url": "https://slicemachine.dev"
+        }
+      },
+      {
+        "categoryLinkLabel": "utilize impactful bandwidth",
+        "categoryLink": {
+          "link_type": "Web",
+          "url": "https://prismic.io"
+        }
+      },
+      {
+        "categoryLinkLabel": "iterate impactful e-services",
+        "categoryLink": {
+          "link_type": "Web",
+          "url": "http://twitter.com"
+        }
+      }
+    ],
+    "primary": {
+      "groupLabel": "utilize value-added interfaces",
+      "link": {
+        "link_type": "Web",
+        "url": "http://google.com"
+      }
+    }
+  }
+]

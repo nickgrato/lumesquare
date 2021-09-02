@@ -1,0 +1,32 @@
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s ease;
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0;
+}
+
+.fade-quick-enter-active, .fade-quick-leave-active {
+  transition: opacity .15s ease;
+}
+
+.fade-quick-enter, .fade-quick-leave-active {
+  opacity: 0;
+}
+
+.fade-slow-enter-active, .fade-slow-leave-active {
+  transition: opacity .6s ease;
+}
+
+.fade-slow-enter, .fade-slow-leave-active {
+  opacity: 0;
+}
+
+.fade-slug-enter-active, .fade-slow-leave-active {
+  transition: opacity 2.5s ease;
+}
+
+.fade-slug-enter, .fade-slow-leave-active {
+  opacity: 0;
+}

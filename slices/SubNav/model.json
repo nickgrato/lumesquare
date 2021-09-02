@@ -1,0 +1,35 @@
+{
+  "id": "sub_nav",
+  "type": "SharedSlice",
+  "name": "SubNav",
+  "description": "SubNav",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "SubNav",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading1",
+            "label": "Title",
+            "placeholder": "This is where it all begins..."
+          }
+        }
+      },
+      "items": {
+        "linkBlocks": {
+          "config": {
+            "label": "",
+            "select": "document",
+            "customtypes": []
+          },
+          "type": "Link"
+        }
+      }
+    }
+  ]
+}

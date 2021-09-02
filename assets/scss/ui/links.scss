@@ -1,0 +1,28 @@
+.link {
+  @include link;
+}
+
+.link-primary {
+  @include link-primary;
+}
+
+.link-secondary {
+  @include link-secondary;
+}
+
+.link-tertiary {
+  @include link-tertiary;
+}
+
+.template-page#MainContent {
+  a {
+    &:not(.link-primary), &:not(.link-secondary), &:not(.link-tertiary), &:not(.button) {
+      color: $black;
+      text-decoration: underline;
+      &:hover {
+        color: $teal;
+      }
+    }
+  }
+}
+

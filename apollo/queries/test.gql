@@ -1,0 +1,10 @@
+query homePage {
+   allLanding_pages{
+    edges{
+      node{
+        title
+        subtitle
+      }
+    }
+  }
+}
