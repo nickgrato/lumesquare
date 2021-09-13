@@ -91,13 +91,13 @@
 
       <!-- ANNCOUNCEMENT TEXT  -->
       <div class="announcement-text"
-        v-if="metafields.show_announcement_text && metafields.show_announcement_text.value == 'true'"
-        v-html="metafields.announcement_text.value">
+        v-if="showAnnouncementText"
+        v-html="announcementText">
       </div>
     </div>
 
     <!-- WATCH VIDEO BUTTON  -->
-    <div class="video-button-container" v-if="metafields.has_video_button && metafields.has_video_button.value == 'true'">
+    <div class="video-button-container" v-if="hasVideoButton">
       <general-button
         @clicked="onPlayVideoButtonClick()"
         text="How to"
@@ -112,34 +112,27 @@
 
       <accordion-wrapper>
 
+        <!-- PRODUCT FEATURES  -->
         <accordion-section
           color="light"
-          title="Description">
-          <template  v-slot:body>
-            <div class="accordion-description" v-if="metafields.description_text" v-html="metafields.description_text.value">
-
-            </div>
-          </template>
-        </accordion-section>
-
-        <accordion-section
-          color="light"
-          title="Product Features">
+          title="What Does This Product Do?">
           <template  v-slot:body>
             <div>
               <ul>
                 <li class="accordion-list" v-for="(feature,index) in features"
-                  :key="index">
-                  {{feature}}
+                  :key="index"
+                  v-html="feature">
                 </li>
               </ul>
+              <!-- <button v-if="feature_show" class="accordion-link" @click="featuredClick()">View Tech Specs</button> -->
             </div>
           </template>
         </accordion-section>
 
+        <!-- IN THE BOX  -->
         <accordion-section
           color="light"
-          title="In the Box">
+          title="What's In The Box?">
           <template  v-slot:body>
             <div>
               <ul>
@@ -163,19 +156,20 @@
         text="Add To Cart"
         type="button">
       </general-button>
+
       <!-- ANNCOUNCEMENT TEXT  -->
       <div class="announcement-text body-md"
-        v-if="metafields.show_announcement_text == 'true'"
-        v-html="metafields.announcement_text">
+        v-if="showAnnouncementText"
+        v-html="announcementText">
       </div>
     </div>
 
     <!-- SHIPPING NOTICE  -->
-    <!-- <div class="shipping-notice-container" v-if="!isGiftCard" >
-      <div class="shipping-notice"
-        v-html="productSettings.settings.shipping_details_content">
+    <div class="shipping-notice-container" v-if="!isGiftCard" >
+      <div class="shipping-notice" >
+        <prismic-rich-text :field="$store.state.productSettings.shippingDetailsContent"/>
       </div>
-    </div> -->
+    </div>
 
   </div>
 </template>
@@ -185,22 +179,17 @@
 //Mixins
 import isTablet from '~/mixins/isMobile'
 import util from '~/mixins/util'
-//Services
-// import { ProductService } from 'scripts/services/product.service.js'
-// import { mapState } from 'vuex'
-// import { CartDispatch, ToastDispatch, ModalDispatch } from 'scripts/store/dispatch.js'
 // Components
 import Currency from '~/components/base/Currency.vue'
 import Icon from '~/components/shared/icons/Icon.vue'
 import AccordionSection from '~/components/shared/accordions/AccordionSection.vue'
 import AccordionWrapper from '~/components/shared/accordions/AccordionWrapper.vue'
 import GeneralButton from '~/components/shared/buttons/GeneralButton.vue'
-// Const
-// const productService = new ProductService()
 // Emit Events
 const Emit = {
   PlayVideoButtonClick:'playVideoButtonClick',
-  ReviewStarClick: 'reviewStarClick'
+  ReviewStarClick: 'reviewStarClick',
+  FeaturedClick: 'featuredClick'
 }
 
 export default {
@@ -235,10 +224,9 @@ export default {
     variantID(){
       if(!this.productData) return
 
-      const id = this.productData.variants[0].id
+      const id = this.productData.variants.edges[0].node.id
       return id
     },
-
 
     compareAtPrice(){
       if(!this.productData) return
@@ -263,9 +251,27 @@ export default {
       return onSale
     },
 
-    // ...mapState({
-    //   productSettings: (state) => state.dtoProductSettings.productSettings,
-    // }),
+    announcementText() {
+      const value = this.metafields.announcement_text
+        ? this.metafields.announcement_text.value
+        : ''
+      return value
+    },
+
+    showAnnouncementText() {
+      const value = this.metafields.show_announcement_text
+        ? this.metafields.show_announcement_text.value === 'true'
+        : false
+      return value
+    },
+
+    hasVideoButton() {
+      const value = this.metafields.has_video_button
+        ? this.metafields.has_video_button.value === 'true'
+        : false
+      return value
+    }
+
   },
   methods: {
 
@@ -273,6 +279,11 @@ export default {
       this.boxs = this.metafields.box ? this.metafields.box.value.split(',') : ''
       this.features = this.metafields.features ? this.metafields.features.value.split(','): ''
     },
+
+    featuredClick(){
+      this.$emit(Emit.FeaturedClick)
+    },
+
 
     onAddToCart() {
 
@@ -282,13 +293,12 @@ export default {
         customAttributes: [{key: "handle", value:this.productData.handle}]
       }]
 
+      this.$store.dispatch('checkout/openSidecart')
       this.$store.dispatch('checkout/addItem', lineItemsToAdd)
         .catch((error) =>
+          // todo maybe add a better ui here with a toast
           console.error(error)
         )
-        .then(() => {
-          this.$store.dispatch('checkout/openSidecart')
-        })
 
     },
 
@@ -316,16 +326,7 @@ export default {
     },
 
   },
-  mounted(){
-    // this.setUpKlarnHack()
-    this.$shopify.checkout.fetch(this.$store.state.checkout.checkoutId).then((checkout) => {
-      // Do something with the checkout
-      console.log('checkout- current ',checkout)
-    });
-
-    console.log('item object',this.productData)
-
-  },
+  mounted(){},
   created: function() {
     this.createAccordionData()
     this.initProductReviews()
@@ -372,14 +373,14 @@ export default {
     }
 
     &-body {
-      // /deep/ * {
-      //   @include primary-font();
-      //   @include font-size(14);
-      //   color: $b-dark-blue;
-      //   letter-spacing: 0;
-      //   line-height: 24px;
-      //   margin:0px;
-      // }
+      ::v-deep {
+        @include primary-font();
+        @include font-size(12);
+        color: $b-dark-blue;
+        letter-spacing: 0;
+        line-height: 24px;
+        margin:0px;
+      }
     }
   }
 
@@ -415,14 +416,14 @@ export default {
   }
 
   .shipping-notice {
-    // /deep/ *{
-    //   @include primary-font();
-    //   @include font-size(12);
-    //   color: $b-dark-blue;
-    //   letter-spacing: 0;
-    //   line-height: 22px;
-    //   text-align: center;
-    // }
+
+      @include primary-font();
+      @include font-size(12);
+      color: $b-dark-blue;
+      letter-spacing: 0;
+      line-height: 22px;
+      text-align: center;
+
 
     &-container {
       margin-bottom: 10px;
@@ -439,9 +440,9 @@ export default {
   .announcement-text {
     text-align: center;
     margin: 10px 0px;
-    // /deep/ * {
-    //   @include body-md
-    // }
+    ::v-deep {
+      @include body-md
+    }
   }
 
   .klarna-container {

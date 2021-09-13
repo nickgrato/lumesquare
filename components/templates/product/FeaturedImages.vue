@@ -5,32 +5,61 @@
 
         <!-- THUMBNAILS  -->
         <div class="thumbnail-wrapper">
+
+          <!-- PREVIOUS  -->
+          <circle-button
+            class="pagination-button prev"
+            @clicked="slidePrev()"
+            icon-name="arrow_left"
+            type="button">
+          </circle-button>
+
+          <!-- NEXT  -->
+          <circle-button
+            class="pagination-button next"
+            @clicked="slideNext()"
+            icon-name="arrow_left"
+            type="button">
+          </circle-button>
+
           <div class="thumbnail-container">
-            <div class="thumbnail-image-wrapper"
-              v-for="(image,index) in images"
-              :key="index"
-              @click="thumbnailClick(image,index)"
-              :class="{active: index == imageIndex}">
 
-              <div class="play-icon-overlay"
-                v-if="isGif(image.node.originalSrc)">
-                <icon
-                  class="play-icon"
-                  fill-class="icon-fill"
-                  name="play"
-                  size="30px">
-                </icon>
-              </div>
+             <swiper class="swiper-component"
+              :options="swiperOptions"
+              ref="imageSwiper">
+              <swiper-slide
+                v-for="(image,index) in images"
+                :key="index">
 
-              <image-format
-                classes="fade-in"
-                :isLazy="true"
-                :src="image.node.originalSrc"
-                :alt="image.node.altText"
-                size="79x">
-              </image-format>
+                <!-- THUMNB NAILS  -->
+                <div class="thumbnail-image-wrapper"
+                  :key="index"
+                  @click="thumbnailClick(image,index)"
+                  :class="{active: index == imageIndex}">
 
-            </div>
+                  <div class="play-icon-overlay"
+                     v-if="isGif(image.node.originalSrc)">
+                    <icon
+                      class="play-icon"
+                      fill-class="icon-fill"
+                      name="play"
+                      size="30px">
+                    </icon>
+                  </div>
+
+                  <image-format
+                    classes="fade-in"
+                    :isLazy="true"
+                    :src="image.node.originalSrc"
+                    :alt="image.node.altText"
+                    size="79x"
+                    :specs="{ height: 102, width: 79 }">
+                  </image-format>
+
+                </div>
+              </swiper-slide>
+            </swiper>
+
           </div>
         </div>
 
@@ -43,25 +72,20 @@
 
             <!-- Pagination  -->
             <div class="pagination-wrapper">
-
-              <!-- BACK ARROW -->
-              <icon-button
-                label="back arrow"
+              <circle-button
+                aria-label="previous click"
                 class="arrow-prev"
                 @clicked="slidePrev()"
-                size="24px"
-                icon="arrow_left">
-              </icon-button>
-
-              <!-- NEXT ARROW -->
-              <icon-button
-                label="next arrow"
+                icon-name="arrow_left"
+                type="button">
+              </circle-button>
+              <circle-button
+                aria-label="next click"
                 class="arrow-next"
                 @clicked="slideNext()"
-                size="24px"
-                icon="arrow_right">
-              </icon-button>
-
+                icon-name="arrow_right"
+                type="button">
+              </circle-button>
             </div>
 
             <image-format
@@ -85,10 +109,21 @@
 <script>
 
 // Components
-
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import 'swiper/css/swiper.css'
 import ImageFormat from '~/components/shared/image/ImageFormat.vue'
 import IconButton from '~/components/shared/buttons/IconButton.vue'
 import Icon from '~/components/shared/icons/Icon.vue'
+const CircleButton = () => import('~/components/shared/buttons/CircleButton.vue')
+
+const SwiperOptions = {
+  slidesPerView: 5,
+  loop: false,
+  slidesPerGroup: 1,
+  direction: 'vertical',
+  observer: true,
+  observeParents: true,
+}
 
 export default {
   name: 'FeaturedImages',
@@ -97,6 +132,7 @@ export default {
   },
   data: function() {
     return {
+      swiperOptions: SwiperOptions,
       featuredImage:{},
       imageIndex: 0,
       imageTransition: false
@@ -105,9 +141,16 @@ export default {
   components: {
     ImageFormat,
     IconButton,
-    Icon
+    Icon,
+    Swiper,
+    SwiperSlide,
+    CircleButton
   },
-  computed: {},
+  computed: {
+    swiper() {
+      return this.$refs.imageSwiper.$swiper
+    },
+  },
   methods: {
     initFeaturedImage() {
       // Init to first image availabe
@@ -155,6 +198,7 @@ export default {
       } else {
         this.imageIndex = this.imageIndex + 1
       }
+      this.swiper.slideTo(this.imageIndex)
       const nextImage = this.images[this.imageIndex]
       this.setFeaturedImage(nextImage)
     },
@@ -170,7 +214,7 @@ export default {
       } else {
         this.imageIndex = this.imageIndex - 1
       }
-
+      this.swiper.slideTo(this.imageIndex)
       const nextImage = this.images[this.imageIndex]
       this.setFeaturedImage(nextImage)
     },
@@ -183,9 +227,7 @@ export default {
     }
 
   },
-  mounted(){
-    console.log('images',this.images)
-  },
+  mounted(){},
   created: function() {
     this.initFeaturedImage()
   }
@@ -194,6 +236,21 @@ export default {
 
 // SCSS
 <style lang="scss" scoped>
+   .pagination-button {
+    position: absolute;
+    left: 12px;
+
+    &.next {
+      bottom: 0px;
+      transform: rotate(-90deg);
+    }
+
+    &.prev {
+      top: 0px;
+      transform: rotate(90deg);
+    }
+  }
+
   .product-image {
     &-container {
       display: flex;
@@ -208,8 +265,9 @@ export default {
     }
 
     &-wrapper {
-      padding-left: 3.5px;
+      position: relative;
     }
+
     &-container {
       position: relative;
       display: flex;
@@ -227,13 +285,24 @@ export default {
   .thumbnail {
     &-wrapper {
       padding-right: 5.5px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    &-container, .swiper-component {
+      max-height: 600px;
+      overflow: hidden;
+      height: 600px;
+      width: 84px;
     }
 
     &-image {
       &-wrapper {
         position: relative;
         display: flex;
-        margin-bottom: 8%;
+        margin-bottom: 4px;
+        height: 102px;
 
         &:hover, &.active {
           .image-format-wrapper {
@@ -248,6 +317,15 @@ export default {
     }
   }
 
+  ::v-deep .swiper-slide {
+    height: 120px!important;
+  }
+
+  ::v-deep .swiper-container {
+    height: 100%;
+    margin-top: 10px;
+  }
+
   .pagination {
     &-wrapper {
       position: absolute;
@@ -256,14 +334,15 @@ export default {
       width: 100%;
       display: flex;
       justify-content: space-between;
+      z-index: 1;
     }
   }
 
   .play-icon-overlay {
-    height: 100%;
-    width: 100%;
-    top:0px;
-    left:0px;
+    height: 100px;
+    width: 77px;
+    top: 1px;
+    left: 1px;
     position: absolute;
     display: flex;
     justify-content: center;

@@ -7,8 +7,9 @@
     </transition>
 
     <transition name="off-canvas-right">
-      <!-- v-scroll-lock="isOpen && !isMobile" -->
+
       <div class="inlineCart"
+        v-scroll-lock="isOpen && !isMobile"
         v-if="isOpen"
         @click="onModalClick">
 
@@ -76,7 +77,7 @@ export default {
 
       if(!this.checkMobile()) return
 
-      const App = document.getElementById('app')
+      const App = document.getElementById('__layout')
       if(next == true){
         App.style.overflow = "hidden";
         App.style.height = "80vh";

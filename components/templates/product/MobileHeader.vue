@@ -10,9 +10,9 @@
         v-for="(image, index) in images"
         :key="index">
         <image-format
-          :src="image.src"
+          :src="image.node.originalSrc"
           :size="sliderImageSize"
-          :alt="image.alt">
+          :alt="image.node.altText">
         </image-format>
       </swiper-slide>
     </swiper>
@@ -70,6 +70,7 @@ export default {
       return this.$refs.imageSwiper.$swiper
     },
   },
+  mounted(){},
   methods: {
     onSlideChangeTransitionEnd(e) {
       this.currentIndex = this.$refs.imageSwiper.$swiper.activeIndex

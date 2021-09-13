@@ -1,0 +1,21 @@
+{
+  "id": "b466b0a0-d072-4737-9d77-d559503c9b59",
+  "uid": "temporibus-esse-asperiores",
+  "type": "product-settings",
+  "data": {
+    "AnnouncementText": [
+      {
+        "type": "paragraph",
+        "text": "Pariatur fugiat mollit officia officia. Sunt elit sit consectetur elit sint occaecat.",
+        "spans": []
+      }
+    ],
+    "shippingDetailsContent": [
+      {
+        "type": "paragraph",
+        "text": "Pariatur dolore aliquip ut consequat exercitation dolore ex ad elit est mollit exercitation sunt proident aliqua. Mollit eiusmod minim dolore ea voluptate do.",
+        "spans": []
+      }
+    ]
+  }
+}

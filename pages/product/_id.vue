@@ -3,8 +3,6 @@
   <div v-if="!loadingPage" class="product-page-wrapper">
       <div class="product-page-container">
 
-
-
         <!-- PDP Main  Above Fold Content  -->
         <div class="main-content-wrapper">
           <div class="main-content-container">
@@ -32,7 +30,6 @@
                 :metafields="metafields">
               </product-information>
 
-
               <product-upsell
                 v-if="metafields.upsell_handle && metafields.upsell_handle.value.length"
                 :handle="metafields.upsell_handle.value"
@@ -44,23 +41,23 @@
         </div>
 
         <!-- Featured Video  -->
-        <!-- <featured-video
-          v-if="metafields.featured_video"
-          :title="metafields.featured_video_title"
-          :id="metafields.featured_video">
-        </featured-video> -->
+        <featured-video
+          v-if="featuredVideo"
+          :title="featuredVideoTitle"
+          :id="featuredVideo">
+        </featured-video>
 
         <!-- FIFTY FIFTY  -->
-        <!-- <fifty-fifty
-          v-if="metafields.ff_show == 'true'"
-          :image="metafields.ff_image"
-          :image-mobile="metafields.ff_image_mobile"
-          :subheading="metafields.ff_subheading"
-          :heading="metafields.ff_heading"
-          :body="metafields.ff_body"
-          :enable-cta="metafields.ff_enable_cta == 'true'"
-          :cta-text="metafields.ff_cta"
-          :cta-url="metafields.ff_cta_url"
+        <fifty-fifty
+          v-if="ffShow"
+          :image="ffImage"
+          :image-mobile="ffImageMobile"
+          :subheading="ffSubheading"
+          :heading="ffHeading"
+          :body="ffBody"
+          :enable-cta="ffEnableCta"
+          :cta-text="ffCta"
+          :cta-url="ffCtaUrl"
           layout="right"
           cta-type="primary"
           text-background-type="color"
@@ -68,19 +65,19 @@
           subheading-color="#0D1542"
           body-color="#0D1542"
           heading-color="#0D1542">
-        </fifty-fifty> -->
+        </fifty-fifty>
 
         <!-- PRODUCT COMPARE  -->
-        <!-- <product-compare
-          v-if="metafields.compare_show == 'true'"
-          :compare_products="metafields.compare_products"
+        <product-compare
+          v-if="compareShow"
+          :compare_products="compareProducts"
           :handle="handle"
-          :title="metafields.compare_title"
-          :compare-cta="metafields.compare_cta"
-          :compare-cta-url="metafields.compare_cta_url">
-        </product-compare> -->
+          :title="compareTitle"
+          :compare-cta="compareCta"
+          :compare-cta-url="compareCtaUrl">
+        </product-compare>
 
-        <!-- Reviews  -->
+        <!-- Reviews  TODO need okendo api -->
         <!-- <div class="reviews-wrapper">
           <div class="reviews-scroll-flag" ref="reviews"></div>
           <div class="reviews-container">
@@ -107,6 +104,9 @@ import ProductInformation from '~/components/templates/product/ProductInformatio
 import ProductUpsell from '~/components/templates/product/ProductUpsell.vue'
 import MobileHeader from '~/components/templates/product/MobileHeader.vue'
 import FeaturedCollection from '~/components/sections/FeaturedCollection.vue'
+const FiftyFifty = () => import('~/components/sections/FiftyFifty.vue')
+const FeaturedVideo = () => import('~/components/shared/video/FeaturedVideo.vue')
+const ProductCompare = () => import('~/components/templates/product/ProductCompare.vue')
 
 //Mixins
 import isTablet from '~/mixins/isMobile'
@@ -118,8 +118,8 @@ export default {
       metafields: {},
       loadingPage:true,
       showVideo: false,
-      isGiftCard: false, //todo
-
+      isGiftCard: false,
+      handle:''
     };
   },
   mixins: [isTablet],
@@ -128,21 +128,139 @@ export default {
     ProductInformation,
     ProductUpsell,
     MobileHeader,
-    FeaturedCollection
+    FeaturedCollection,
+    FiftyFifty,
+    FeaturedVideo,
+    ProductCompare
   },
   methods:{
     async getProductData(productHandle){
-      // this.product = await this.$shopify.product.fetchByHandle(productHandle)
       this.product = await  this.$dataService.getProductData(productHandle)
-
       this.metafields = await this.$dataService.getProductMetafieldData(productHandle)
-      console.log('meta',this.product)
-      console.log('product',this.metafields)
+      this.isGiftCard = this.product.productType === 'Gift Card'
       this.loadingPage = false
+
+      console.log('product',this.product)
+      console.log('meta',this.metafields)
     },
     onPlayVideoButtonClick() {
       this.showVideo = true
     },
+  },
+  computed: {
+    featuredVideo() {
+      const value = this.metafields.featured_video
+        ? this.metafields.featured_video.value
+        : ''
+      return value
+    },
+
+    featuredVideoTitle() {
+      const value = this.metafields.featured_video_title
+        ? this.metafields.featured_video_title.value
+        : ''
+      return value
+    },
+
+    ffShow() {
+      const value = this.metafields.ff_show
+        ? this.metafields.ff_show.value === 'true'
+        : false
+      return value
+    },
+
+    ffImage() {
+      const value = this.metafields.ff_image
+        ? this.metafields.ff_image.value
+        : ''
+      return value
+    },
+
+    ffImageMobile() {
+      const value = this.metafields.ff_image_mobile
+        ? this.metafields.ff_image_mobile.value
+        : ''
+      return value
+    },
+
+    ffSubheading() {
+      const value = this.metafields.ff_subheading
+        ? this.metafields.ff_subheading.value
+        : ''
+      return value
+    },
+
+    ffHeading() {
+      const value = this.metafields.ff_heading
+        ? this.metafields.ff_heading.value
+        : ''
+      return value
+    },
+
+    ffBody() {
+      const value = this.metafields.ff_body
+        ? this.metafields.ff_body.value
+        : ''
+      return value
+    },
+
+    ffCta() {
+      const value = this.metafields.ff_cta
+        ? this.metafields.ff_cta.value
+        : ''
+      return value
+    },
+
+    ffCtaUrl() {
+      const value = this.metafields.ff_cta_url
+        ? this.metafields.ff_cta_url.value
+        : ''
+      return value
+    },
+
+    ffEnableCta() {
+      const value = this.metafields.ff_enable_cta
+        ? this.metafields.ff_enable_cta.value === 'true'
+        : false
+      return value
+    },
+
+    compareShow() {
+      const value = this.metafields.compare_show
+        ? this.metafields.compare_show.value
+        : ''
+      return value
+    },
+
+    compareProducts() {
+      const value = this.metafields.compare_products
+        ? JSON.parse(this.metafields.compare_products.value)
+        : ''
+      return value
+    },
+
+    compareTitle() {
+      const value = this.metafields.compare_title
+        ? this.metafields.compare_title.value
+        : ''
+      return value
+    },
+
+    compareCta() {
+      const value = this.metafields.compare_cta
+        ? this.metafields.compare_cta.value
+        : ''
+      return value
+    },
+
+    compareCtaUrl() {
+      const value = this.metafields.compare_cta_url
+        ? this.metafields.compare_cta_url.value
+        : ''
+      return value
+    },
+
+
   },
   mounted() {
     const productHandle = this.$route.params.id
@@ -150,20 +268,9 @@ export default {
     // If no param do somethin here....
     if(!productHandle) return
 
+    this.handle = productHandle
+
     this.getProductData(productHandle)
-
-    // this.$shopify.product.fetchByHandle(productHandle).then( product => {
-    //     // console.log('product',this.product)
-    //     console.log('product',product)
-    //     this.product = product
-    //     this.loadingPage = false
-    // })
-
-    // // need to make this service... maybe rename?
-    // this.$dataService.getProductMetafieldData(productHandle).then(resp => {
-    //   console.log('meta data', resp)
-    // })
-
 
   },
 };

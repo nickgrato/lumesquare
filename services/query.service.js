@@ -5,6 +5,7 @@ export class QueryService {
             productByHandle(handle:"${handleId}") {
               title
               id
+              productType
               description
               descriptionHtml
               onlineStoreUrl
@@ -72,6 +73,22 @@ export class QueryService {
     let query = `
           {
             productByHandle(handle:"${handleId}") {
+              handle
+              variants(first:1) {
+                edges {
+                  node {
+                    priceV2 {
+                      currencyCode
+                      amount
+                    }
+                    compareAtPriceV2 {
+                      currencyCode
+                      amount
+                    }
+                    id
+                  }
+                }
+              }
               show_announcement_text: metafield(namespace: "info", key: "show_announcement_text") {
                 value
                 id
@@ -101,6 +118,60 @@ export class QueryService {
               upsell_description : metafield(namespace: "upsell", key: "description") {
                 value
               }
+              featured_video : metafield(namespace: "video", key: "video_id") {
+                value
+              }
+              featured_video_title : metafield(namespace: "video", key: "title") {
+                value
+              }
+              ff_show : metafield(namespace: "fifty_fifty", key: "ff_show") {
+                value
+              }
+              ff_enable_cta : metafield(namespace: "fifty_fifty", key: "ff_enable_cta") {
+                value
+              }
+              ff_cta_url : metafield(namespace: "fifty_fifty", key: "ff_cta_url") {
+                value
+              }
+              ff_image_mobile : metafield(namespace: "fifty_fifty", key: "ff_image_mobile") {
+                value
+              }
+              ff_heading : metafield(namespace: "fifty_fifty", key: "ff_heading") {
+                value
+              }
+              ff_cta : metafield(namespace: "fifty_fifty", key: "ff_cta") {
+                value
+              }
+              ff_subheading : metafield(namespace: "fifty_fifty", key: "ff_subheading") {
+                value
+              }
+              ff_body : metafield(namespace: "fifty_fifty", key: "ff_body") {
+                value
+              }
+              ff_image : metafield(namespace: "fifty_fifty", key: "ff_image") {
+                value
+              }
+
+
+              compare_show : metafield(namespace: "compare", key: "show") {
+                value
+              }
+              compare_products : metafield(namespace: "compare", key: "products") {
+                value
+              }
+              compare_title : metafield(namespace: "compare", key: "title") {
+                value
+              }
+              compare_cta : metafield(namespace: "compare", key: "cta") {
+                value
+              }
+              compare_cta_url : metafield(namespace: "compare", key: "cta_url") {
+                value
+              }
+              compare_data : metafield(namespace: "compare", key: "data") {
+                value
+              }
+
             }
           }`;
     return query;

@@ -121,6 +121,7 @@ export default {
     // Use commit to call a mutation - if not using the action atall.. consider
     // this.$store.commit('fruits/addFruit', newFruit)
     await store.dispatch('fetchMenu', $prismic)
+    await store.dispatch('fetchProductSettings', $prismic)
     await store.dispatch('currency/setCurrencySetting', dto)
 
 

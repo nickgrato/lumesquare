@@ -28,6 +28,20 @@
   "_cts": {
     "page": {},
     "home-page": {},
-    "menu": {}
+    "menu": {},
+    "product-settings": {
+      "AnnouncementText": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      },
+      "shippingDetailsContent": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
+    }
   }
 }

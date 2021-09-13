@@ -43,7 +43,8 @@ export default {
     '~/plugins/directives.js',
     '~/plugins/mq.js',
     '~/plugins/filters.js',
-    { src: '@/plugins/vue-awesome-swiper', mode: 'client' }
+    { src: '@/plugins/vue-awesome-swiper', mode: 'client' },
+    { src: '@/plugins/vue-scroll-lock', mode: 'client' }
   ],
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
